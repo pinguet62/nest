@@ -11,5 +11,5 @@ export interface Deserializer<TInput = any, TOutput = any> {
 export type ProducerDeserializer = Deserializer<any, IncomingResponse>;
 export type ConsumerDeserializer = Deserializer<
   any,
-  IncomingRequest | IncomingEvent
+  IncomingRequest | IncomingEvent | Promise<IncomingRequest | IncomingEvent>
 >;

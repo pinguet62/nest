@@ -120,7 +120,7 @@ export class ServerRMQ extends Server implements CustomTransportStrategy {
     }
     const { content, properties } = message;
     const rawMessage = JSON.parse(content.toString());
-    const packet = this.deserializer.deserialize(rawMessage);
+    const packet = await this.deserializer.deserialize(rawMessage);
     const pattern = isString(packet.pattern)
       ? packet.pattern
       : JSON.stringify(packet.pattern);

@@ -148,7 +148,7 @@ export class ServerKafka extends Server implements CustomTransportStrategy {
     const replyTopic = headers[KafkaHeaders.REPLY_TOPIC];
     const replyPartition = headers[KafkaHeaders.REPLY_PARTITION];
 
-    const packet = this.deserializer.deserialize(rawMessage, { channel });
+    const packet = await this.deserializer.deserialize(rawMessage, { channel });
     const kafkaContext = new KafkaContext([
       rawMessage,
       payload.partition,

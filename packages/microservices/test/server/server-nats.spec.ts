@@ -98,13 +98,19 @@ describe('ServerNats', () => {
       getPublisherSpy = sinon.spy();
       sinon.stub(server, 'getPublisher').callsFake(() => getPublisherSpy);
     });
-    it('should call "handleEvent" if identifier is not present', () => {
+    it('should call "handleEvent" if identifier is not present', async () => {
       const handleEventSpy = sinon.spy(server, 'handleEvent');
-      server.handleMessage(channel, { pattern: '', data: '' }, null, '', '');
+      await server.handleMessage(
+        channel,
+        { pattern: '', data: '' },
+        null,
+        '',
+        '',
+      );
       expect(handleEventSpy.called).to.be.true;
     });
-    it(`should publish NO_MESSAGE_HANDLER if pattern not exists in messageHandlers object`, () => {
-      server.handleMessage(
+    it(`should publish NO_MESSAGE_HANDLER if pattern not exists in messageHandlers object`, async () => {
+      await server.handleMessage(
         channel,
         { id, pattern: '', data: '' },
         null,
@@ -119,7 +125,7 @@ describe('ServerNats', () => {
         }),
       ).to.be.true;
     });
-    it(`should call handler with expected arguments`, () => {
+    it(`should call handler with expected arguments`, async () => {
       const handler = sinon.spy();
       (server as any).messageHandlers = objectToMap({
         [channel]: handler,
@@ -127,7 +133,7 @@ describe('ServerNats', () => {
 
       const callerSubject = 'subject';
       const natsContext = new NatsContext([callerSubject]);
-      server.handleMessage(
+      await server.handleMessage(
         channel,
         { pattern: '', data, id: '2' },
         null,

@@ -53,8 +53,8 @@ export class ClientTCP extends ClientProxy {
     return this.connection;
   }
 
-  public handleResponse(buffer: unknown): void {
-    const { err, response, isDisposed, id } = this.deserializer.deserialize(
+  public async handleResponse(buffer: unknown): Promise<void> {
+    const { err, response, isDisposed, id } = await this.deserializer.deserialize(
       buffer,
     );
     const callback = this.routingMap.get(id);

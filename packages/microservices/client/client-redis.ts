@@ -121,12 +121,18 @@ export class ClientRedis extends ClientProxy {
     return this.getOptionsProp(this.options, 'retryDelay') || 0;
   }
 
-  public createResponseCallback(): (channel: string, buffer: string) => void {
-    return (channel: string, buffer: string) => {
+  public createResponseCallback(): (
+    channel: string,
+    buffer: string,
+  ) => Promise<void> {
+    return async (channel: string, buffer: string) => {
       const packet = JSON.parse(buffer);
-      const { err, response, isDisposed, id } = this.deserializer.deserialize(
-        packet,
-      );
+      const {
+        err,
+        response,
+        isDisposed,
+        id,
+      } = await this.deserializer.deserialize(packet);
 
       const callback = this.routingMap.get(id);
       if (!callback) {

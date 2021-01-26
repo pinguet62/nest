@@ -123,12 +123,12 @@ describe('ClientRedis', () => {
     };
 
     describe('not completed', () => {
-      beforeEach(() => {
+      beforeEach(async () => {
         callback = sinon.spy();
 
         subscription = client.createResponseCallback();
         client['routingMap'].set(responseMessage.id, callback);
-        subscription('channel', new Buffer(JSON.stringify(responseMessage)));
+        await subscription('channel', new Buffer(JSON.stringify(responseMessage)));
       });
       it('should call callback with expected arguments', () => {
         expect(

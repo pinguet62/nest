@@ -62,9 +62,9 @@ export class ClientNats extends ClientProxy {
   public createSubscriptionHandler(
     packet: ReadPacket & PacketId,
     callback: (packet: WritePacket) => any,
-  ): Function {
-    return (rawPacket: unknown) => {
-      const message = this.deserializer.deserialize(rawPacket);
+  ): (rawPacket: unknown) => Promise<any> {
+    return async (rawPacket: unknown) => {
+      const message = await this.deserializer.deserialize(rawPacket);
       if (message.id && message.id !== packet.id) {
         return undefined;
       }

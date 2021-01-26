@@ -155,11 +155,11 @@ export class ClientRMQ extends ClientProxy {
     });
   }
 
-  public handleMessage(
+  public async handleMessage(
     packet: unknown,
     callback: (packet: WritePacket) => any,
   ) {
-    const { err, response, isDisposed } = this.deserializer.deserialize(packet);
+    const { err, response, isDisposed } = await this.deserializer.deserialize(packet);
     if (isDisposed || err) {
       callback({
         err,

@@ -8,8 +8,8 @@ export interface Deserializer<TInput = any, TOutput = any> {
   deserialize(value: TInput, options?: Record<string, any>): TOutput;
 }
 
-export type ProducerDeserializer = Deserializer<any, IncomingResponse>;
+export type ProducerDeserializer = Deserializer<any, IncomingResponse | Promise<IncomingResponse>>;
 export type ConsumerDeserializer = Deserializer<
   any,
-  IncomingRequest | IncomingEvent
+  IncomingRequest | IncomingEvent | Promise<IncomingRequest | IncomingEvent>
 >;
